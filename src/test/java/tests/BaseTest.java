@@ -31,6 +31,9 @@ public class BaseTest {
         loginPage = new LoginPage();
         projectsPage = new ProjectsPage();
         testCasePage = new TestCasePage();
+
+        System.out.println(System.getenv("user"));
+        System.out.println(System.getenv("password"));
     }
 
     @AfterMethod(alwaysRun = true)
