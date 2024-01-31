@@ -1,8 +1,11 @@
 package tests;
 
+import com.github.javafaker.Faker;
+import lombok.extern.log4j.Log4j2;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+@Log4j2
 public class LoginTest extends BaseTest {
 
     @Test (description = "Authorization with correct data")

@@ -1,11 +1,14 @@
 package pages;
 
 import com.codeborne.selenide.Condition;
+import io.qameta.allure.Step;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
+@Log4j2
 public class ProjectsPage {
     String label;
     private final By PROJECT_NAME = By.id("project-name");
@@ -13,8 +16,12 @@ public class ProjectsPage {
     private final By DESCRIPTION = By.id("description-area");
     private final By CREATE_NEW_BTN = By.id("createButton");
     final private By CREATE_BTN = By.xpath("//span[text()='Create project']");
-    final private By CREATE_NEW_CASE = By.id("create-case-button");
     final private By CREATE_NEW_SUITE = By.id("create-suite-button");
+    final private By MAIN_MENU_BTN = By.xpath("//span//img");
+    final private By SIGN_OUT_BTN = By.xpath("//div//span[text()='Sign out']");
+    final private By LOG_IN_MESSAGE = By.xpath("//div//h1[text()='Log in to your account']");
+    final private By BTN_ADD_FILTER = By.xpath("//button[text()='Add filter']");
+    final private By ALERT_CREDENTIALS_MESSAGE = By.cssSelector("[role=alert]");
 
 
     public void openPage() {
@@ -30,7 +37,7 @@ public class ProjectsPage {
     }
 
     public void waitTillOpen() {
-        $(By.xpath("//div//div[text()='Looks like you don’t have any suites and cases yet.']")).shouldBe(Condition.visible);
+        $(BTN_ADD_FILTER).shouldBe(Condition.visible);
     }
 
     public void createNewProject(String name, String code, String description) {
@@ -42,16 +49,22 @@ public class ProjectsPage {
         $(CREATE_BTN).click();
     }
 
+    @Step("Check if repository is created")
     public String getTitle() {
-        return $(By.xpath("//h1")).getText();
+        log.info("Check if repository is created");
+         return $(By.xpath("//h1[text()=' repository']")).getText();
     }
 
     public String isAlertDisplayed() {
-        return $(By.cssSelector("[role=alert]")).getText();
+        return $(ALERT_CREDENTIALS_MESSAGE).getText();
     }
 
     public void fillFieldSuiteName(String suiteName, String description, String preconditions) {
         $(CREATE_NEW_SUITE).click();
+        $(By.id("title")).sendKeys(suiteName);
+        $(By.xpath("//label[text()='Description']/parent::div/following::p")).sendKeys(description);
+        $(By.xpath("//label[text()='Preconditions']/parent::div/following::p")).sendKeys(preconditions);
+        $(By.xpath("//span[text()='Create']")).click();
     }
 
     public String getSuiteName() {
@@ -59,15 +72,32 @@ public class ProjectsPage {
     }
 
     public void waitTillOpenedAutPage() {
-        $(By.xpath("//div//h1[text()='Log in to your account']")).shouldBe(Condition.visible);
+        $(LOG_IN_MESSAGE).shouldBe(Condition.visible);
     }
 
     public String isAutPageDisplayed() {
-        return $(By.xpath("//div//h1[text()='Log in to your account']")).getText();
+        return $(LOG_IN_MESSAGE).getText();
     }
 
     public void logOut() {
-        $(By.xpath("//span//img")).click();
-        $(By.xpath("//div//span[text()='Sign out']")).click();
+        $(MAIN_MENU_BTN).click();
+        $(SIGN_OUT_BTN).click();
+    }
+
+    public boolean projectToDelete() {
+        $(By.xpath("//table//tr[3]//td[8]")).shouldBe(Condition.visible);
+        return false;
+    }
+
+    public void clickOnSettings() {
+        $(By.xpath("//table//tr[3]//td[8]")).click();
+        $(By.xpath("//a[text()='Settings']")).click();
+    }
+
+
+    public String settingsIsDisplayed() {
+        return $(By.xpath("//h1[text()='Project settings']")).getText();
+
+
     }
 }

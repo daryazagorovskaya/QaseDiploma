@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import pages.LoginPage;
 import pages.ProjectsPage;
 import pages.TestCasePage;
+import utils.PropertyReader;
 
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static com.codeborne.selenide.Selenide.open;
@@ -32,8 +33,10 @@ public class BaseTest {
         projectsPage = new ProjectsPage();
         testCasePage = new TestCasePage();
 
-        System.out.println(System.getenv("user"));
-        System.out.println(System.getenv("password"));
+        String user = System.getenv().getOrDefault("user", PropertyReader.getProperty("qs.user"));
+        System.out.println(user);
+        String password = System.getenv().getOrDefault("password", PropertyReader.getProperty("qs.password"));
+        System.out.println(password);
     }
 
     @AfterMethod(alwaysRun = true)

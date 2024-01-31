@@ -3,7 +3,7 @@
 <suite thread-count="2" name="SauceDemo Smoke Test" parallel="tests">
     <test name="Thread #1">
         <classes>
-            <class name="tests.ProjectTest"/>
+            <class name="tests.ProjectsTest"/>
             <parameter name="browser" value="chrome"></parameter>
         </classes>
     </test> <!-- Test -->

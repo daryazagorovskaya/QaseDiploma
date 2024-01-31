@@ -6,8 +6,11 @@ import org.openqa.selenium.By;
 import static com.codeborne.selenide.Selenide.$;
 
 public class TestCasePage {
+    final private By CREATE_NEW_CASE = By.id("create-case-button");
+
+
     public void openTestCase() {
-        $(By.id("create-case-button")).click();
+        $(CREATE_NEW_CASE).click();
     }
 
     public void waitTillOpen() {
@@ -20,5 +23,9 @@ public class TestCasePage {
 
     public void pickProjectInProjectPage(String nameOfProject) {
         $(By.xpath(String.format("//div//a[text()='%s']", nameOfProject))).click();
+    }
+
+    public void waitTillOpenedCase() {
+        $(CREATE_NEW_CASE).shouldBe(Condition.visible);
     }
 }

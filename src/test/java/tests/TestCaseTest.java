@@ -1,12 +1,21 @@
 package tests;
 
+import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import wrappers.Input;
+import wrappers.PickList;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.webdriver;
 
 public class TestCaseTest extends BaseTest {
+
+    Faker faker = new Faker();
+    String projectName = faker.lorem().word() + faker.number().numberBetween(1, 100);
+    String projectCode = faker.number().digits(8);
+    String projectDescription = faker.lorem().word();
 
     @Test (description = "Creation of the test case without adding conditions and the steps")
     public void createTestCaseInCreatedProject() {
@@ -14,7 +23,7 @@ public class TestCaseTest extends BaseTest {
         loginPage.login("zagorik.dasha17@gmail.com", "Switch206med)");
         projectsPage.waitTillOpened();
         testCasePage.pickProjectInProjectPage("ShareLane");
-        testCasePage.waitTillOpen();
+        testCasePage.waitTillOpenedCase();
         testCasePage.openTestCase();
         Assert.assertEquals(testCasePage.isTestCasePageDisplayed(), "Create test case", "Test failed");
     }
@@ -25,7 +34,7 @@ public class TestCaseTest extends BaseTest {
         loginPage.login("zagorik.dasha17@gmail.com", "Switch206med)");
         projectsPage.waitTillOpened();
         testCasePage.pickProjectInProjectPage("ShareLane");
-        testCasePage.waitTillOpen();
+        testCasePage.waitTillOpenedCase();
         testCasePage.openTestCase();
         Assert.assertEquals(testCasePage.isTestCasePageDisplayed(), "Create test case", "Test failed");
     }
@@ -35,13 +44,22 @@ public class TestCaseTest extends BaseTest {
         loginPage.openPage();
         loginPage.login("zagorik.dasha17@gmail.com", "Switch206med)");
         projectsPage.waitTillOpened();
-        projectsPage.createNewProject("Test56659", "58763", "Test");
-        projectsPage.waitTillOpen();
+        projectsPage.createNewProject(projectName, projectCode, projectDescription);
+        testCasePage.waitTillOpenedCase();
         testCasePage.openTestCase();
         testCasePage.waitTillOpen();
-        $(By.xpath("//div[@class='Thgbhj euhZGB cfvQxI']/preceding-sibling::label[text()='Status']")).click();
-        $(By.xpath("//*[@id='modals']/*)[last()]//*[text()='Actual']")).click();
+    }
 
-
+    @Test
+    public void fillTestCase() {
+        loginPage.openPage();
+        loginPage.login("zagorik.dasha17@gmail.com", "Switch206med)");
+        projectsPage.waitTillOpened();
+        testCasePage.pickProjectInProjectPage("ShareLane");
+        testCasePage.waitTillOpenedCase();
+        testCasePage.openTestCase();
+        testCasePage.waitTillOpen();
+        new Input("Title").write("Test 1");
+        new PickList("Status").select("Actual");
     }
 }
