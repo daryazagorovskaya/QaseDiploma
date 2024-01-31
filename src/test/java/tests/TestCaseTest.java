@@ -59,7 +59,8 @@ public class TestCaseTest extends BaseTest {
         testCasePage.waitTillOpenedCase();
         testCasePage.openTestCase();
         testCasePage.waitTillOpen();
-        new Input("Title").write("Test 1");
-        new PickList("Status").select("Actual");
+        new Te
+        new Input("Pre-conditions").write("pampam");
+        //new PickList("Status").select("Actual");
     }
 }
