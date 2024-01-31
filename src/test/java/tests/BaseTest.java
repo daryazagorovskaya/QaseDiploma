@@ -14,6 +14,8 @@ import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class BaseTest {
+    public static String USER;
+    public static String PASSWORD;
     LoginPage loginPage;
     ProjectsPage projectsPage;
     TestCasePage testCasePage;
@@ -34,9 +36,7 @@ public class BaseTest {
         testCasePage = new TestCasePage();
 
         String user = System.getenv().getOrDefault("user", PropertyReader.getProperty("qs.user"));
-        System.out.println(user);
         String password = System.getenv().getOrDefault("password", PropertyReader.getProperty("qs.password"));
-        System.out.println(password);
     }
 
     @AfterMethod(alwaysRun = true)
