@@ -21,6 +21,7 @@ public class PickList {
         ////*[@id='modals']/*)[last()]//*[text()='%s']
         // не подходит для полей Suite и Milestones
         // $(By.xpath("//label[text()='Milestone']//../following-sibling::*//input")).click();
+        //
     }
 
 }
