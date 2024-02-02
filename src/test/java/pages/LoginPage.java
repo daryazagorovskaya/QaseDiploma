@@ -21,11 +21,11 @@ LoginPage  {
         open("/login");
     }
 
-    @Step("Log in using credentials: '{user}', '{pass}'")
-    public void login(String user, String pass) {
+    @Step("Log in using credentials: '{user}', '{password}'")
+    public void login(String user, String password) {
         log.info("Log in using credentials: '{user}', '{pass}'");
         $(EMAIL_CSS).sendKeys(user);
-        $(PASS_CSS).sendKeys(pass);
+        $(PASS_CSS).sendKeys(password);
         $(SUBMIT_BTN_CSS).click();
     }
 

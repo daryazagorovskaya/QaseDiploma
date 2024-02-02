@@ -4,12 +4,13 @@
     <test name="Thread #1">
         <classes>
             <class name="tests.ProjectsTest"/>
+            <class name="tests.TestCaseTest"/>
             <parameter name="browser" value="chrome"></parameter>
         </classes>
     </test> <!-- Test -->
     <test name="Thread #2">
         <classes>
-            <class name="tests.BaseTest"/>
+            <class name="tests.LoginTest"/>
             <parameter name="browser" value="chrome"></parameter>
         </classes>
     </test> <!-- Test -->

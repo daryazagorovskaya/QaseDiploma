@@ -35,8 +35,8 @@ public class BaseTest {
         projectsPage = new ProjectsPage();
         testCasePage = new TestCasePage();
 
-        String user = System.getenv().getOrDefault("user", PropertyReader.getProperty("qs.user"));
-        String password = System.getenv().getOrDefault("password", PropertyReader.getProperty("qs.password"));
+        USER = System.getenv().getOrDefault("user", PropertyReader.getProperty("qs.user"));
+        PASSWORD = System.getenv().getOrDefault("password", PropertyReader.getProperty("qs.password"));
     }
 
     @AfterMethod(alwaysRun = true)

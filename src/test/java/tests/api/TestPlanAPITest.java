@@ -1,11 +1,11 @@
-package api;
+package tests.api;
 
 import io.restassured.http.ContentType;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 
-public class TestPlan {
+public class TestPlanAPITest {
     public static final String URL = "https://api.qase.io";
 
     @Test

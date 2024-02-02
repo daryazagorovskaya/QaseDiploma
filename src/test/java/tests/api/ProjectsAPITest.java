@@ -1,11 +1,11 @@
-package api;
+package tests.api;
 
 import io.restassured.http.ContentType;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 
-public class Projects {
+public class ProjectsAPITest {
     public static final String URL = "https://api.qase.io";
 
     @Test
@@ -37,7 +37,7 @@ public class Projects {
     @Test
     public void createNewProject() {
         given()
-                .body("{\"title\":\"Test37\",\"code\":\"ft4tk\"}")
+                .body("{\"title\":\"8t37\",\"code\":\"ft4tk\"}")
                 .header("accept", "application/json")
                 .header("Token", "98af48f36c4f7fa1049887fa9dc46aa030418493342b90bd217dea38a6eb83aa")
                 .when()

@@ -21,6 +21,8 @@ public class ProjectsPage {
     final private By SIGN_OUT_BTN = By.xpath("//div//span[text()='Sign out']");
     final private By LOG_IN_MESSAGE = By.xpath("//div//h1[text()='Log in to your account']");
     final private By BTN_ADD_FILTER = By.xpath("//button[text()='Add filter']");
+    final private By BTN_SETTINGS = By.xpath("//a[text()='Settings']");
+    final private String  BTN_ABOUT_PROJECT = "//a[text()='%s']/parent::div/../../following-sibling::td//button";
     final private By ALERT_CREDENTIALS_MESSAGE = By.cssSelector("[role=alert]");
 
 
@@ -28,10 +30,16 @@ public class ProjectsPage {
         open("/properties");
     }
 
+    public void openPageProjects() {
+        open("/projects");
+    }
+
 
     public void waitTillOpened() {
         $(CREATE_NEW_BTN).shouldBe(Condition.visible);
     }
+
+
     public String waitTillOpenedIsDisplayed() {
         return $(CREATE_NEW_BTN).shouldBe(Condition.visible).getText();
     }
@@ -67,8 +75,8 @@ public class ProjectsPage {
         $(By.xpath("//span[text()='Create']")).click();
     }
 
-    public String getSuiteName() {
-      return  $(By.xpath("//a[text()='Web']")).getText();
+    public String getSuiteName(String suiteNameAdd ) {
+      return  $(By.xpath(String.format("//a[text()='%s']", suiteNameAdd))).getText();
     }
 
     public void waitTillOpenedAutPage() {
@@ -84,20 +92,24 @@ public class ProjectsPage {
         $(SIGN_OUT_BTN).click();
     }
 
-    public boolean projectToDelete() {
-        $(By.xpath("//table//tr[3]//td[8]")).shouldBe(Condition.visible);
+    public boolean projectToDelete(String name) {
+        $(By.xpath(String.format(BTN_ABOUT_PROJECT, name))).shouldBe(Condition.visible);
         return false;
     }
 
-    public void clickOnSettings() {
-        $(By.xpath("//table//tr[3]//td[8]")).click();
+    public void clickOnSettings(String name) {
+        $(By.xpath(String.format(BTN_ABOUT_PROJECT , name))).click();
         $(By.xpath("//a[text()='Settings']")).click();
     }
 
 
     public String settingsIsDisplayed() {
         return $(By.xpath("//h1[text()='Project settings']")).getText();
+    }
 
-
+    public void removeProject(String name) {
+        $(By.xpath("//span[text()='5']")).click();
+        $(By.xpath(String.format("//a[text()='%s']/parent::div/../../following-sibling::td//button//span" , name))).click();
+        $(By.xpath("//div//button[text()='Remove']")).click();
     }
 }

@@ -1,4 +1,4 @@
-package api;
+package tests.api;
 
 import com.github.javafaker.Faker;
 import io.restassured.http.ContentType;
@@ -9,7 +9,7 @@ import java.util.Map;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
-public class TestCase {
+public class TestCaseAPITest {
     Faker faker = new Faker();
     String descripNumber = faker.lorem().word() + faker.number().numberBetween(1, 100);
     public static final String URL = "https://api.qase.io";
