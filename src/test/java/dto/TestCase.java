@@ -15,7 +15,7 @@ public class TestCase {
     String layer;
     String isFlaky;
     String milestone;
-    String behaviour;
+    String behavior;
     String automationStatus;
     //Conditions
     String preConditions;
@@ -25,6 +25,8 @@ public class TestCase {
     //Attachments
     String attachment;
     String addParam;
+    String parameterTitle;
+    String parameterValues;
     String testCaseSteps;
     String addStep;
 

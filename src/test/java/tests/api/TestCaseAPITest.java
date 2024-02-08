@@ -3,17 +3,17 @@ package tests.api;
 import com.github.javafaker.Faker;
 import io.restassured.http.ContentType;
 import org.testng.annotations.Test;
+import tests.BaseAPITest;
 
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 
-public class TestCaseAPITest {
+public class TestCaseAPITest extends BaseAPITest {
     Faker faker = new Faker();
-    String descripNumber = faker.lorem().word() + faker.number().numberBetween(1, 100);
-    public static final String URL = "https://api.qase.io";
-    public static final String TOKEN = "98af48f36c4f7fa1049887fa9dc46aa030418493342b90bd217dea38a6eb83aa";
+    String descriptionNumber = faker.lorem().word() + faker.number().numberBetween(1, 100);
+    String randomTitle = faker.lorem().sentence();
 
     @Test
     public void getAllTestCases() {
@@ -31,7 +31,7 @@ public class TestCaseAPITest {
     @Test
     public void createNewTestCase() {
         given()
-                .body("{\"title\":\"Проверка кроссбраузерности\"}")
+                .body("{\"title\":\"" + randomTitle + "\"}")
                 .header("accept", "application/json")
                 .header("Token", TOKEN)
                 .when()
@@ -39,7 +39,9 @@ public class TestCaseAPITest {
                 .post(URL + "/v1/case/SHARELANE")
                 .then()
                 .log().all()
-                .statusCode(200);
+                .statusCode(200)
+                //.body("title", equalTo(randomTitle))
+                .body("title", not(emptyString()));
     }
 
     @Test
@@ -58,7 +60,7 @@ public class TestCaseAPITest {
     @Test
     public void deleteTestCase() {
         given()
-                .body(Map.of("title","Проверка кроссбраузерности"))
+                .body("{\"title\":\"" + randomTitle + "\"}")
                 .header("accept", "application/json")
                 .header("Token", TOKEN)
                 .when()
@@ -72,16 +74,17 @@ public class TestCaseAPITest {
                 .header("Token", TOKEN)
                 .when()
                 .contentType(ContentType.JSON)
-                .delete(URL + "/v1/case/SHARELANE/33")
+                .delete(URL + "/v1/case/SHARELANE/87" )
                 .then()
                 .log().all()
                 .statusCode(200);
+        // тут разобраться с индексом
     }
 
     @Test
     public void updateTestCase() {
         given()
-                .body(Map.of("description", descripNumber))
+                .body(Map.of("description", descriptionNumber))
                 .header("accept", "application/json")
                 .header("Token", TOKEN)
                 .when()
@@ -99,13 +102,13 @@ public class TestCaseAPITest {
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("result.description", equalTo(descripNumber));
+                .body("result.description", equalTo(descriptionNumber));
     }
 
     @Test
     public void createTestCaseInBulk() {
         given()
-                .body("{\"cases\":[{\"title\":\"pampam\"}]}")
+                .body("{\"title\":\"" + randomTitle + "\"}")
                 .header("accept", "application/json")
                 .header("Token", TOKEN)
                 .when()

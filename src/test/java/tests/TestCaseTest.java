@@ -1,92 +1,132 @@
 package tests;
 
 import com.github.javafaker.Faker;
-import org.openqa.selenium.By;
+import dto.TestCase;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import wrappers.CheckBox;
-import wrappers.Input;
-import wrappers.PickList;
-
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.webdriver;
 
 public class TestCaseTest extends BaseTest {
 
+    @BeforeMethod
+    public void setUp() {
+        loginPage.openPage();
+        loginPage.login(USER, PASSWORD);
+        projectsPage.waitTillOpened();
+        testCasePage.pickProjectInProjectPage("ShareLane");
+        testCasePage.waitTillOpenedCase();
+    }
     Faker faker = new Faker();
-    String projectName = faker.lorem().word() + faker.number().numberBetween(1, 100);
-    String projectCode = faker.number().digits(9);
-    String projectDescription = faker.lorem().word();
+    String randomTitle = faker.lorem().sentence();
+    String randomTitle2 = faker.lorem().sentence();
 
-    @Test (description = "Creation of the test case without adding conditions and the steps")
+    @Test(description = "Creation of the test case without adding conditions and the steps")
     public void createTestCaseInCreatedProject() {
-        loginPage.openPage();
-        loginPage.login(USER, PASSWORD);
-        projectsPage.waitTillOpened();
-        testCasePage.pickProjectInProjectPage("ShareLane");
-        testCasePage.waitTillOpenedCase();
         testCasePage.openTestCase();
         Assert.assertEquals(testCasePage.isTestCasePageDisplayed(), "Create test case", "Test failed");
     }
 
     @Test
-    public void createTestCaseInNewProject() {
-        loginPage.openPage();
-        loginPage.login(USER, PASSWORD);
-        projectsPage.waitTillOpened();
-        testCasePage.pickProjectInProjectPage("ShareLane");
-        testCasePage.waitTillOpenedCase();
+    public void testCaseSuccessfulCreation() {
         testCasePage.openTestCase();
-        Assert.assertEquals(testCasePage.isTestCasePageDisplayed(), "Create test case", "Test failed");
+        testCasePage.waitTillOpen();
+        TestCase testCase = TestCase.builder().
+                title(randomTitle).
+                description("pam").
+                suite("Login").
+                severity("Normal").
+                priority("Low").
+                type("Smoke").
+                layer("API").
+                isFlaky("No").
+                milestone("Not set").
+                behavior("Positive").
+                automationStatus("Manual").
+                preConditions("pam").
+                postConditions("pam").
+                parameterTitle("pam").
+                parameterValues("pam").
+                testCaseSteps("Gherkin").
+                addStep("pam").
+                build();
+        testCasePage.fillInTestCase(testCase);
+        testCasePage.saveProject();
+        testCasePage.waitTillOpenRepositoryPage();
+        testCasePage.testCaseShouldBeCreated(randomTitle);
     }
 
     @Test
-    public void createTestCaseWithRequiredField() {
-        loginPage.openPage();
-        loginPage.login(USER, PASSWORD);
-        projectsPage.waitTillOpened();
-        projectsPage.createNewProject(projectName, projectCode, projectDescription);
-        testCasePage.waitTillOpenedCase();
+    public void testCaseCheckDeleteTestCase() {
         testCasePage.openTestCase();
+        testCasePage.waitTillOpen();
+        TestCase testCase = TestCase.builder().
+                title(randomTitle).
+                build();
+        testCasePage.fillInTestCase(testCase);
+        testCasePage.saveProject();
+        testCasePage.testCaseShouldBeCreated(randomTitle);
+        testCasePage.testCaseCheckDelete(randomTitle);
+        Assert.assertFalse(testCasePage.testCaseToDelete(randomTitle));
+    }
+
+    @Test
+    public void testCaseCheckCreationTest() {
+        testCasePage.openTestCase();
+        testCasePage.waitTillOpen();
+        TestCase testCase = TestCase.builder().
+                title(randomTitle).
+                build();
+        testCasePage.fillInTestCase(testCase);
+        testCasePage.saveProject();
+        testCasePage.waitTillOpenRepositoryPage();
+        testCasePage.testCaseShouldBeCreated(randomTitle);
+    }
+
+    @Test
+    public void testCaseCheckButtonSaveAndCreationAnother() {
+        testCasePage.openTestCase();
+        testCasePage.waitTillOpen();
+        TestCase testCase = TestCase.builder().
+                title(randomTitle).
+                build();
+        testCasePage.fillInTestCase(testCase);
+        testCasePage.saveAndCreateAnotherProject();
         testCasePage.waitTillOpen();
     }
 
     @Test
-    public void fillTestCase() {
-        loginPage.openPage();
-        loginPage.login(USER, PASSWORD);
-        projectsPage.waitTillOpened();
-        testCasePage.pickProjectInProjectPage("ShareLane");
-        testCasePage.waitTillOpenedCase();
+    public void testCaseCheckEditTestCase() {
         testCasePage.openTestCase();
         testCasePage.waitTillOpen();
-        new Input().write("Title", "pampam");
-        new Input().write("Description","pampam");
-        new PickList().select("Status","Actual");
-        new PickList().setSuite("Login");
-        new PickList().select("Severity","Normal");
-        new PickList().select("Priority","Low");
-        new PickList().select("Severity","Minor");
-        new PickList().select("Type","Other");
-        new PickList().select("Layer","API");
-        new PickList().select("Is flaky","No");
-        new PickList().setMilestone("Not set");
-        new PickList().select("Behavior","Positive");
-        new PickList().select("Automation status","Manual");
-        new CheckBox().check();
-        new Input().write("Pre-conditions","pampam");
-        new Input().write("Post-conditions","pampam");
-        new Input().writeParameter("Parameter title", "pampam");
-        new Input().writeParameterValues("Parameter values", "pampam");
-        new PickList().setTypeTestCaseSteps("Gherkin");
-        new PickList().setGherkinSteps("Given", "pampam");
-        $(By.xpath("//div[text()='Given']"));
-        new PickList().setGherkinSteps("When", "pampam");
-        //$(By.xpath("//div[text()='Given']/../../following-sibling::td//div//input")).sendKeys("pampan");
-        //$(By.xpath("//*[@id='gherkin-add-step-btn']//span//text()")).click();
+        TestCase testCase = TestCase.builder().
+                title(randomTitle).
+                build();
+        testCasePage.fillInTestCase(testCase);
+        testCasePage.saveProject();
+        testCasePage.testCaseShouldBeCreated(randomTitle);
+        testCasePage.testCaseCheckEdit(randomTitle);
+        testCasePage.testCaseShouldBeOpenEditPage();
+    }
 
-
-
-
+    @Test
+    public void testCaseCheckEditField() {
+        testCasePage.openTestCase();
+        testCasePage.waitTillOpen();
+        TestCase testCase = TestCase.builder().
+                title(randomTitle).
+                build();
+        testCasePage.fillInTestCase(testCase);
+        testCasePage.saveProject();
+        testCasePage.testCaseShouldBeCreated(randomTitle);
+        testCasePage.testCaseCheckEdit(randomTitle);
+        testCasePage.testCaseShouldBeOpenEditPage();
+        testCasePage.clearField();
+        testCase = TestCase.builder()
+                .title(randomTitle2)
+                .build();
+        testCasePage.fillInTestCase(testCase);
+        testCasePage.saveProject();
+        testCasePage.testCasePageDescription();
+        testCasePage.repositoryCurrentProject(randomTitle2);
     }
 }
