@@ -1,17 +1,12 @@
 package tests.api;
 
-import adapters.ProjectApi;
-import adapters.ProjectFactory;
 import com.github.javafaker.Faker;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 
-import static com.codeborne.selenide.Selenide.$;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.not;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class ProjectsAPITest extends BaseAPITest {
     Faker faker = new Faker();
