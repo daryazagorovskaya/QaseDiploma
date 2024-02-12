@@ -38,8 +38,8 @@ public class BaseTest {
         testCasePage = new TestCasePage();
         suitePage = new SuitePage();
 
-        USER = System.getenv().getOrDefault("user", PropertyReader.getProperty("qs.user"));
-        PASSWORD = System.getenv().getOrDefault("password", PropertyReader.getProperty("qs.password"));
+        USER = System.getProperty("user", PropertyReader.getProperty("qs.user"));
+        PASSWORD = System.getProperty("password", PropertyReader.getProperty("qs.password"));
     }
 
     @AfterMethod(alwaysRun = true)
