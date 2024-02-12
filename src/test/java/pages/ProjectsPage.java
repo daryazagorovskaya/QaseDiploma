@@ -10,18 +10,12 @@ import static com.codeborne.selenide.Selenide.open;
 
 @Log4j2
 public class ProjectsPage {
-    String label;
     private final By PROJECT_NAME = By.id("project-name");
     private final By PROJECT_CODE = By.id("project-code");
     private final By DESCRIPTION = By.id("description-area");
     private final By CREATE_NEW_BTN = By.id("createButton");
-    private final By TITLE = By.id("title");
     final private By CREATE_BTN = By.xpath("//span[text()='Create project']");
-    final private By CREATE_NEW_SUITE = By.id("create-suite-button");
-    final private By MAIN_MENU_BTN = By.xpath("//span//img");
-    final private By FIELD_DESCRIPTION = By.xpath("//label[text()='Description']/parent::div/following::p");
-    final private By BUTTON_CREATE = By.xpath("//span[text()='Create']");
-    final private By FIELD_PRECONDITIONS = By.xpath("//label[text()='Preconditions']/parent::div/following::p");
+        final private By MAIN_MENU_BTN = By.xpath("//span//img");
     final private By SIGN_OUT_BTN = By.xpath("//div//span[text()='Sign out']");
     final private By LOG_IN_MESSAGE = By.xpath("//div//h1[text()='Log in to your account']");
     final private By NAME_OF_PROJECT = By.xpath("//h1[text()=' repository']");
@@ -75,17 +69,6 @@ public class ProjectsPage {
         return $(ALERT_CREDENTIALS_MESSAGE).getText();
     }
 
-    public void fillFieldSuiteName(String suiteName, String description, String preconditions) {
-        $(CREATE_NEW_SUITE).click();
-        $(TITLE).sendKeys(suiteName);
-        $(FIELD_DESCRIPTION).sendKeys(description);
-        $(FIELD_PRECONDITIONS).sendKeys(preconditions);
-        $(BUTTON_CREATE).click();
-    }
-
-    public String getSuiteName(String suiteNameAdd ) {
-      return  $(By.xpath(String.format("//a[text()='%s']", suiteNameAdd))).getText();
-    }
 
     public void waitTillOpenedAutPage() {
         $(LOG_IN_MESSAGE).shouldBe(Condition.visible);
@@ -116,7 +99,7 @@ public class ProjectsPage {
     }
 
     public void removeProject(String name) {
-        $(By.xpath("//span[text()='5']")).click();
+        //$(By.xpath("//span[text()='']")).click();
         $(By.xpath(String.format(SEARCH_PROJECT_BY_NAME, name))).click();
         $(BTN_REMOVE).click();
     }

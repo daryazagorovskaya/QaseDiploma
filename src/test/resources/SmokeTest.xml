@@ -11,6 +11,7 @@
     <test name="Thread #2">
         <classes>
             <class name="tests.LoginTest"/>
+            <class name="tests.SuiteTest"/>
             <parameter name="browser" value="chrome"></parameter>
         </classes>
     </test> <!-- Test -->

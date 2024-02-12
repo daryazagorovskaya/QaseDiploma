@@ -1,13 +1,16 @@
 package tests.api;
 
+import com.github.javafaker.Faker;
 import io.restassured.http.ContentType;
 import org.testng.annotations.Test;
-import tests.BaseAPITest;
 
 import static io.restassured.RestAssured.given;
 
 public class TestPlanAPITest extends BaseAPITest {
     public static final String URL = "https://api.qase.io";
+
+    Faker faker = new Faker();
+    int planNumber = faker.number().numberBetween(1, 100);
 
     @Test
     public void getAllPlans() {
@@ -29,7 +32,7 @@ public class TestPlanAPITest extends BaseAPITest {
                 .header("Token", TOKEN)
                 .when()
                 .contentType(ContentType.JSON)
-                .get(URL + "/v1/plan/SHARELANE/1")
+                .get(URL + "/v1/plan/SHARELANE/" + planNumber)
                 .then()
                 .log().all()
                 .statusCode(200);

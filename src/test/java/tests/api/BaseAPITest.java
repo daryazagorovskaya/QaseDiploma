@@ -1,4 +1,4 @@
-package tests;
+package tests.api;
 
 public class BaseAPITest {
     public static final String URL = "https://api.qase.io";

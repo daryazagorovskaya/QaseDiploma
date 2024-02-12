@@ -29,5 +29,6 @@ public class TestCase {
     String parameterValues;
     String testCaseSteps;
     String addStep;
+    String cases;
 
 }

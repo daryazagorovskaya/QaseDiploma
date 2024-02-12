@@ -12,7 +12,16 @@ import static com.codeborne.selenide.Selenide.$;
 public class TestCasePage {
     final private By CREATE_NEW_CASE = By.id("create-case-button");
     final private By SAVE_BTN = By.xpath("//button//span[text()='Save']");
+    final private By DELETE_BTN = By.xpath("//span[text()=' Delete']");
     final private By EDIT_BTN = By.xpath("//span[text()=' Edit']");
+    final private By EDIT_TEST_CASE = By.xpath("//h1[text()='Edit test case']");
+    final private By CREATE_CASE_TITLE = By.xpath("//h1[text()='Create test case']");
+    final private By SAVE_AND_CREATE_ANOTHER = By.xpath("//button//span[text()='Save and create another']");
+    private final By TITLE = By.id("title");
+    private final String CHECK_TEST_CASE_EDIT = "//input[@type='checkbox']/../../following-sibling::div[text()='%s']";
+    private final String NAME_REPOSITORY_CURRENT_PROJECT = "//h1//div[text()='%s']";
+    private final String NAME_OF_PROJECT = "//div//a[text()='%s']";
+    private final String PROJECT_NAME = "//div[text()='%s']";
 
 
     public void openTestCase() {
@@ -20,35 +29,31 @@ public class TestCasePage {
     }
 
     public void waitTillOpen() {
-        $(By.xpath("//h1[text()='Create test case']")).shouldBe(Condition.visible);
+        $(CREATE_CASE_TITLE).shouldBe(Condition.visible);
     }
 
     public String isTestCasePageDisplayed() {
-        return  $(By.xpath("//h1[text()='Create test case']")).shouldBe(Condition.visible).getText();
+        return  $(CREATE_CASE_TITLE).shouldBe(Condition.visible).getText();
     }
 
     public void waitTillOpenRepositoryPage() {
-        $(By.id("create-case-button")).shouldBe(Condition.visible);
+        $(CREATE_NEW_CASE).shouldBe(Condition.visible);
     }
 
     public void pickProjectInProjectPage(String nameOfProject) {
-        $(By.xpath(String.format("//div//a[text()='%s']", nameOfProject))).click();
+        $(By.xpath(String.format(NAME_OF_PROJECT, nameOfProject))).click();
     }
 
     public void waitTillOpenedCase() {
         $(CREATE_NEW_CASE).shouldBe(Condition.visible);
     }
 
-    public void saveProject() {
+    public void saveTestCase() {
         $(SAVE_BTN).click();
     }
 
     public void saveAndCreateAnotherProject() {
-        $(By.xpath("//button//span[text()='Save and create another']")).click();
-    }
-
-    public void cancelProject() {
-        $(By.xpath("//button//span[text()='Cancel']")).click();
+        $(SAVE_AND_CREATE_ANOTHER).click();
     }
 
     public void fillInTestCase(TestCase testCase) {
@@ -77,8 +82,8 @@ public class TestCasePage {
         $(By.xpath(String.format("//div[text()='%s']", title))).shouldBe(Condition.visible);
     }
     public void testCaseCheckDelete (String title) {
-        $(By.xpath(String.format("//input[@type='checkbox']/../../following-sibling::div[text()='%s']", title))).click();
-        $(By.xpath("//span[text()=' Delete']")).click();
+        $(By.xpath(String.format(CHECK_TEST_CASE_EDIT, title))).click();
+        $(DELETE_BTN).click();
     }
 
     public boolean testCaseToDelete(String name) {
@@ -87,24 +92,20 @@ public class TestCasePage {
     }
 
     public void testCaseCheckEdit (String title) {
-        $(By.xpath(String.format("//input[@type='checkbox']/../../following-sibling::div[text()='%s']", title))).click();
+        $(By.xpath(String.format(CHECK_TEST_CASE_EDIT, title))).click();
         $(EDIT_BTN).click();
     }
 
     public void testCaseShouldBeOpenEditPage () {
-        $(By.xpath(String.format("//h1[text()='Edit test case']"))).shouldBe(Condition.visible);
-    }
-
-    public void editFieldChangedField () {
-        $(By.xpath("//div[text()='has updated ']")).shouldBe(Condition.visible);
+        $(EDIT_TEST_CASE).shouldBe(Condition.visible);
     }
 
     public void clearField () {
-        $(By.id("title")).clear();
+        $(TITLE).clear();
     }
 
     public void repositoryCurrentProject (String title) {
-        $(By.xpath(String.format("//h1//div[text()='%s']", title))).shouldBe(Condition.visible);
+        $(By.xpath(String.format(NAME_REPOSITORY_CURRENT_PROJECT, title))).shouldBe(Condition.visible);
     }
 
     public void testCasePageDescription () {

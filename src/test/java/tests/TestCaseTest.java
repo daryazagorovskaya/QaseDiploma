@@ -26,7 +26,7 @@ public class TestCaseTest extends BaseTest {
         Assert.assertEquals(testCasePage.isTestCasePageDisplayed(), "Create test case", "Test failed");
     }
 
-    @Test
+    @Test(description = "Creation of the test case with full descriptions")
     public void testCaseSuccessfulCreation() {
         testCasePage.openTestCase();
         testCasePage.waitTillOpen();
@@ -50,12 +50,12 @@ public class TestCaseTest extends BaseTest {
                 addStep("pam").
                 build();
         testCasePage.fillInTestCase(testCase);
-        testCasePage.saveProject();
+        testCasePage.saveTestCase();
         testCasePage.waitTillOpenRepositoryPage();
         testCasePage.testCaseShouldBeCreated(randomTitle);
     }
 
-    @Test
+    @Test(description = "Checking for deletion of the test-case")
     public void testCaseCheckDeleteTestCase() {
         testCasePage.openTestCase();
         testCasePage.waitTillOpen();
@@ -63,13 +63,13 @@ public class TestCaseTest extends BaseTest {
                 title(randomTitle).
                 build();
         testCasePage.fillInTestCase(testCase);
-        testCasePage.saveProject();
+        testCasePage.saveTestCase();
         testCasePage.testCaseShouldBeCreated(randomTitle);
         testCasePage.testCaseCheckDelete(randomTitle);
         Assert.assertFalse(testCasePage.testCaseToDelete(randomTitle));
     }
 
-    @Test
+    @Test(description = "Checking for creation of the test-case")
     public void testCaseCheckCreationTest() {
         testCasePage.openTestCase();
         testCasePage.waitTillOpen();
@@ -77,12 +77,12 @@ public class TestCaseTest extends BaseTest {
                 title(randomTitle).
                 build();
         testCasePage.fillInTestCase(testCase);
-        testCasePage.saveProject();
+        testCasePage.saveTestCase();
         testCasePage.waitTillOpenRepositoryPage();
         testCasePage.testCaseShouldBeCreated(randomTitle);
     }
 
-    @Test
+    @Test(description = "Checking button 'Save and creation another'")
     public void testCaseCheckButtonSaveAndCreationAnother() {
         testCasePage.openTestCase();
         testCasePage.waitTillOpen();
@@ -94,7 +94,7 @@ public class TestCaseTest extends BaseTest {
         testCasePage.waitTillOpen();
     }
 
-    @Test
+    @Test(description = "Checking for edit of the test-case")
     public void testCaseCheckEditTestCase() {
         testCasePage.openTestCase();
         testCasePage.waitTillOpen();
@@ -102,31 +102,9 @@ public class TestCaseTest extends BaseTest {
                 title(randomTitle).
                 build();
         testCasePage.fillInTestCase(testCase);
-        testCasePage.saveProject();
+        testCasePage.saveTestCase();
         testCasePage.testCaseShouldBeCreated(randomTitle);
         testCasePage.testCaseCheckEdit(randomTitle);
         testCasePage.testCaseShouldBeOpenEditPage();
-    }
-
-    @Test
-    public void testCaseCheckEditField() {
-        testCasePage.openTestCase();
-        testCasePage.waitTillOpen();
-        TestCase testCase = TestCase.builder().
-                title(randomTitle).
-                build();
-        testCasePage.fillInTestCase(testCase);
-        testCasePage.saveProject();
-        testCasePage.testCaseShouldBeCreated(randomTitle);
-        testCasePage.testCaseCheckEdit(randomTitle);
-        testCasePage.testCaseShouldBeOpenEditPage();
-        testCasePage.clearField();
-        testCase = TestCase.builder()
-                .title(randomTitle2)
-                .build();
-        testCasePage.fillInTestCase(testCase);
-        testCasePage.saveProject();
-        testCasePage.testCasePageDescription();
-        testCasePage.repositoryCurrentProject(randomTitle2);
     }
 }

@@ -6,6 +6,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import pages.LoginPage;
 import pages.ProjectsPage;
+import pages.SuitePage;
 import pages.TestCasePage;
 import utils.PropertyReader;
 
@@ -19,6 +20,7 @@ public class BaseTest {
     LoginPage loginPage;
     ProjectsPage projectsPage;
     TestCasePage testCasePage;
+    SuitePage suitePage;
 
     Faker faker;
 
@@ -34,6 +36,7 @@ public class BaseTest {
         loginPage = new LoginPage();
         projectsPage = new ProjectsPage();
         testCasePage = new TestCasePage();
+        suitePage = new SuitePage();
 
         USER = System.getenv().getOrDefault("user", PropertyReader.getProperty("qs.user"));
         PASSWORD = System.getenv().getOrDefault("password", PropertyReader.getProperty("qs.password"));

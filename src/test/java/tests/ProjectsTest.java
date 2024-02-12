@@ -18,11 +18,9 @@ public class ProjectsTest extends BaseTest {
     }
     Faker faker = new Faker();
     String projectName = faker.lorem().word() + faker.number().numberBetween(1, 100);
-    String projectCode = faker.number().digits(9);
+    String projectCode = faker.number().digits(6) + faker.regexify("[a-zA-Z]{4}");
     String projectDescription = faker.lorem().word();
-    String suiteName = faker.lorem().word();
-    String suiteDescription = faker.lorem().sentence();
-    String suitePreCondition = faker.lorem().sentence();
+
 
     @Test (description = "Remove project")
     public void removeProject() {
@@ -39,16 +37,6 @@ public class ProjectsTest extends BaseTest {
         projectsPage.createNewProject(projectName, projectCode, projectDescription);
         projectsPage.waitTillOpen();
         Assert.assertEquals(projectsPage.getTitle(), projectCode + " repository");
-    }
-
-    @Test (description = "Creation of the new suite")
-    public void createNewSuite() {
-        projectsPage.createNewProject(projectName, projectCode, projectDescription);
-        projectsPage.waitTillOpen();
-        projectsPage.fillFieldSuiteName(suiteName,
-                suiteDescription,
-                suitePreCondition);
-        Assert.assertEquals(projectsPage.getSuiteName(suiteName), suiteName);
     }
 
     @Test (description = "Check button 'Settings' project")
