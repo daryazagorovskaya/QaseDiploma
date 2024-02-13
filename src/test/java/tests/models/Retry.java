@@ -1,4 +1,4 @@
-package tests;
+package tests.models;
 
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;

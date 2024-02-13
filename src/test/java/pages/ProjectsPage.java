@@ -10,37 +10,49 @@ import static com.codeborne.selenide.Selenide.open;
 
 @Log4j2
 public class ProjectsPage {
-    String label;
     private final By PROJECT_NAME = By.id("project-name");
     private final By PROJECT_CODE = By.id("project-code");
     private final By DESCRIPTION = By.id("description-area");
     private final By CREATE_NEW_BTN = By.id("createButton");
     final private By CREATE_BTN = By.xpath("//span[text()='Create project']");
-    final private By CREATE_NEW_SUITE = By.id("create-suite-button");
     final private By MAIN_MENU_BTN = By.xpath("//span//img");
     final private By SIGN_OUT_BTN = By.xpath("//div//span[text()='Sign out']");
     final private By LOG_IN_MESSAGE = By.xpath("//div//h1[text()='Log in to your account']");
+    final private By NAME_OF_PROJECT = By.xpath("//h1[text()=' repository']");
     final private By BTN_ADD_FILTER = By.xpath("//button[text()='Add filter']");
+    final private By PROJECT_SETTINGS = By.xpath("//h1[text()='Project settings']");
+    final private String  BTN_ABOUT_PROJECT = "//a[text()='%s']/parent::div/../../following-sibling::td//button";
+    final private By BTN_REMOVE = By.xpath("//div//button[text()='Remove']");
+    final private String  SEARCH_PROJECT_BY_NAME = "//a[text()='%s']/parent::div/../../following-sibling::td//button//span";
     final private By ALERT_CREDENTIALS_MESSAGE = By.cssSelector("[role=alert]");
 
-
-    public void openPage() {
-        open("/properties");
+    @Step("Opening a project page")
+    public void openPageProjects() {
+        log.info("Opening a project page");
+        open("/projects");
     }
 
 
+    @Step("Checking transit to projects page")
     public void waitTillOpened() {
         $(CREATE_NEW_BTN).shouldBe(Condition.visible);
     }
+
+    @Step("Checking that the projects creation page has opened")
     public String waitTillOpenedIsDisplayed() {
+        log.info("Checking that the projects creation page has opened");
         return $(CREATE_NEW_BTN).shouldBe(Condition.visible).getText();
     }
 
+    @Step("Waiting for the project creation page to open")
     public void waitTillOpen() {
+        log.info("Waiting for the project creation page to open");
         $(BTN_ADD_FILTER).shouldBe(Condition.visible);
     }
 
+    @Step("Creation new project")
     public void createNewProject(String name, String code, String description) {
+        log.info("Creation new project");
         $(CREATE_NEW_BTN).click();
         $(PROJECT_NAME).sendKeys(name);
         $(PROJECT_CODE).clear();
@@ -52,52 +64,45 @@ public class ProjectsPage {
     @Step("Check if repository is created")
     public String getTitle() {
         log.info("Check if repository is created");
-         return $(By.xpath("//h1[text()=' repository']")).getText();
+         return $(NAME_OF_PROJECT).getText();
     }
 
+    @Step("Error message for incorrect authorization")
     public String isAlertDisplayed() {
+        log.info("Error message for incorrect authorization");
         return $(ALERT_CREDENTIALS_MESSAGE).getText();
     }
 
-    public void fillFieldSuiteName(String suiteName, String description, String preconditions) {
-        $(CREATE_NEW_SUITE).click();
-        $(By.id("title")).sendKeys(suiteName);
-        $(By.xpath("//label[text()='Description']/parent::div/following::p")).sendKeys(description);
-        $(By.xpath("//label[text()='Preconditions']/parent::div/following::p")).sendKeys(preconditions);
-        $(By.xpath("//span[text()='Create']")).click();
-    }
-
-    public String getSuiteName() {
-      return  $(By.xpath("//a[text()='Web']")).getText();
-    }
-
+    @Step("Log in button when logging out")
     public void waitTillOpenedAutPage() {
+        log.info("Log in button when logging out");
         $(LOG_IN_MESSAGE).shouldBe(Condition.visible);
     }
 
+    @Step("Log in message when logging out")
     public String isAutPageDisplayed() {
+        log.info("Log in message when logging out");
         return $(LOG_IN_MESSAGE).getText();
     }
 
+    @Step("Logout")
     public void logOut() {
+        log.info("Logout");
         $(MAIN_MENU_BTN).click();
         $(SIGN_OUT_BTN).click();
     }
 
-    public boolean projectToDelete() {
-        $(By.xpath("//table//tr[3]//td[8]")).shouldBe(Condition.visible);
+    @Step("Check that the project has been deleted")
+    public boolean isProjectExist(String name) {
+        log.info("Check that the project has been deleted");
+        $(By.xpath(String.format(BTN_ABOUT_PROJECT, name))).shouldBe(Condition.visible);
         return false;
     }
 
-    public void clickOnSettings() {
-        $(By.xpath("//table//tr[3]//td[8]")).click();
-        $(By.xpath("//a[text()='Settings']")).click();
-    }
-
-
-    public String settingsIsDisplayed() {
-        return $(By.xpath("//h1[text()='Project settings']")).getText();
-
-
+    @Step("Delete project")
+    public void removeProject(String name) {
+        log.info("Delete project");
+        $(By.xpath(String.format(SEARCH_PROJECT_BY_NAME, name))).click();
+        $(BTN_REMOVE).click();
     }
 }

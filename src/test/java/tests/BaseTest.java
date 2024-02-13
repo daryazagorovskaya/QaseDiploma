@@ -6,6 +6,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import pages.LoginPage;
 import pages.ProjectsPage;
+import pages.SuitePage;
 import pages.TestCasePage;
 import utils.PropertyReader;
 
@@ -14,9 +15,14 @@ import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class BaseTest {
+    public static final String URL = "https://api.qase.io";
+    public static String USER;
+    public static String PASSWORD;
+    public static String TOKEN;
     LoginPage loginPage;
     ProjectsPage projectsPage;
     TestCasePage testCasePage;
+    SuitePage suitePage;
 
     Faker faker;
 
@@ -32,11 +38,13 @@ public class BaseTest {
         loginPage = new LoginPage();
         projectsPage = new ProjectsPage();
         testCasePage = new TestCasePage();
+        suitePage = new SuitePage();
 
-        String user = System.getenv().getOrDefault("user", PropertyReader.getProperty("qs.user"));
-        System.out.println(user);
-        String password = System.getenv().getOrDefault("password", PropertyReader.getProperty("qs.password"));
-        System.out.println(password);
+        USER = System.getProperty("user", PropertyReader.getProperty("qs.user"));
+        PASSWORD = System.getProperty("password", PropertyReader.getProperty("qs.password"));
+        TOKEN = System.getProperty("token", PropertyReader.getProperty("qs.token"));
+
+
     }
 
     @AfterMethod(alwaysRun = true)

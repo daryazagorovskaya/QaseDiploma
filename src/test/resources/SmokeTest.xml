@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite thread-count="2" name="SauceDemo Smoke Test" parallel="tests">
+    <listeners>
+        <listener class-name="tests.models.AnnotationTransformer"></listener>
+        <listener class-name="tests.models.TestListener"></listener>
+    </listeners>
     <test name="Thread #1">
         <classes>
             <class name="tests.ProjectsTest"/>
+            <class name="tests.TestCaseTest"/>
             <parameter name="browser" value="chrome"></parameter>
         </classes>
     </test> <!-- Test -->
     <test name="Thread #2">
         <classes>
-            <class name="tests.BaseTest"/>
+            <class name="tests.LoginTest"/>
+            <class name="tests.SuiteTest"/>
             <parameter name="browser" value="chrome"></parameter>
         </classes>
     </test> <!-- Test -->
