@@ -15,9 +15,6 @@ public class PickList {
     private final String SUITE_PICKLIST_OPTION = "//label[text()='Suite']/following-sibling::div//*[text()='%s']";
     private final String STEPS_PICKLIST = "//div[text()='Test Case Steps']/div";
     private final String STEPS_PICKLIST_OPTION = "//div[text()='Test Case Steps']/div//*[text()='%s']";
-    private final String TEST_CASE_PICKLIST_OPTION = "//div[text()='%s']/../../following-sibling::td//div//input";
-    private  final String ADD_STEP_BUTTON = "gherkin-add-step-btn";
-
 
     public void select(String label, String option) {
         log.info("Select '{}' option inside '{}' dropdown", option, label);
@@ -48,14 +45,6 @@ public class PickList {
         if (option != null) {
             $(By.xpath(String.format(STEPS_PICKLIST))).click();
             $(By.xpath(String.format(STEPS_PICKLIST_OPTION, option))).click();
-        }
-    }
-
-    public void setGherkinSteps(String option, String text) {
-        log.info("Select '{}' option inside test case steps dropdown", option);
-        if (option != null) {
-            $(By.id(ADD_STEP_BUTTON)).click();
-            $(By.xpath(String.format(TEST_CASE_PICKLIST_OPTION, option))).sendKeys(text);
         }
     }
 }

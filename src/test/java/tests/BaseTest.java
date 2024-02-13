@@ -15,8 +15,10 @@ import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class BaseTest {
+    public static final String URL = "https://api.qase.io";
     public static String USER;
     public static String PASSWORD;
+    public static String TOKEN;
     LoginPage loginPage;
     ProjectsPage projectsPage;
     TestCasePage testCasePage;
@@ -27,7 +29,7 @@ public class BaseTest {
     @BeforeMethod
     public void setup() {
         Configuration.browser = "chrome";
-        Configuration.headless = true;
+        Configuration.headless = false;
         Configuration.timeout = 10000;
         Configuration.baseUrl = "https://app.qase.io";
         open();
@@ -40,6 +42,9 @@ public class BaseTest {
 
         USER = System.getProperty("user", PropertyReader.getProperty("qs.user"));
         PASSWORD = System.getProperty("password", PropertyReader.getProperty("qs.password"));
+        TOKEN = System.getProperty("token", PropertyReader.getProperty("qs.token"));
+
+
     }
 
     @AfterMethod(alwaysRun = true)

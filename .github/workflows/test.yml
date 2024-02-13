@@ -30,9 +30,10 @@ jobs:
       - name: Run Tests Chrome
         run: mvn clean test
       - name: Run Tests All Browsers
-        run: mvn clean test -DsuiteXmlFile='src/test/resources/SmokeTest.xml' -Duser=$USER -Dpassword=$PASSWORD
+        run: mvn clean test -DsuiteXmlFile='src/test/resources/SmokeTest.xml' -Duser=$USER -Dpassword=$PASSWORD -Dtoken=$TOKEN
         env:
           USER: ${{secrets.QS_USER}}
           PASSWORD: ${{secrets.QS_PASSWORD}}
+          TOKEN: ${{secrets.QS_TOKEN}}
 
 

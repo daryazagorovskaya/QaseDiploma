@@ -13,14 +13,9 @@ public class SuiteTest extends BaseTest {
         loginPage.openPage();
         loginPage.login(USER, PASSWORD);
         projectsPage.waitTillOpened();
-        projectsPage.createNewProject(projectName, projectCode, projectDescription);
-        projectsPage.waitTillOpen();
     }
 
     Faker faker = new Faker();
-    String projectName = faker.lorem().word() + faker.number().numberBetween(1, 100);
-    String projectCode = faker.number().digits(9);
-    String projectDescription = faker.lorem().word();
     String suiteName = faker.lorem().word();
     String suiteDescription = faker.lorem().sentence();
     String suitePreCondition = faker.lorem().sentence();
@@ -28,18 +23,28 @@ public class SuiteTest extends BaseTest {
 
     @Test(description = "Creation of the new suite")
     public void createNewSuite() {
-        suitePage.fillFieldSuiteName(suiteName,
-                suiteDescription,
-                suitePreCondition);
-        Assert.assertEquals(suitePage.getSuiteName(suiteName), suiteName);
+        String projectName = faker.lorem().word() + faker.number().numberBetween(1, 100);
+        String projectCode = faker.number().digits(9);
+        String projectDescription = faker.lorem().word();
+        projectsPage.createNewProject(projectName, projectCode, projectDescription);
+        projectsPage.waitTillOpen();
+        suitePage.fillFieldSuiteName(suiteName, suiteDescription, suitePreCondition);
+        suitePage.waitTillOpenRepositoryPage();
+        String actualSuiteName = suitePage.suiteShouldExist(suiteName);
+        Assert.assertEquals(actualSuiteName, suiteName, "Suite creation failed");
     }
 
     @Test(description = "Delete suite")
     public void deleteSuite() {
+        String projectName = faker.lorem().word() + faker.number().numberBetween(1, 100);
+        String projectCode = faker.number().digits(9);
+        String projectDescription = faker.lorem().word();
+        projectsPage.createNewProject(projectName, projectCode, projectDescription);
+        projectsPage.waitTillOpen();
         suitePage.fillFieldSuiteName(suiteName,
                 suiteDescription,
                 suitePreCondition);
-        Assert.assertEquals(suitePage.getSuiteName(suiteName), suiteName);
+        Assert.assertEquals(suitePage.suiteShouldExist(suiteName), suiteName);
         suitePage.clickButtonDelete(suiteName);
         suitePage.confirmDeleteSuite();
         Assert.assertFalse(suitePage.suiteToDelete(suiteName));
@@ -47,34 +52,49 @@ public class SuiteTest extends BaseTest {
 
     @Test(description = "Clone suite")
     public void cloneSuite() {
+        String projectName = faker.lorem().word() + faker.number().numberBetween(1, 100);
+        String projectCode = faker.number().digits(9);
+        String projectDescription = faker.lorem().word();
+        projectsPage.createNewProject(projectName, projectCode, projectDescription);
+        projectsPage.waitTillOpen();
         suitePage.fillFieldSuiteName(suiteName,
                 suiteDescription,
                 suitePreCondition);
-        Assert.assertEquals(suitePage.getSuiteName(suiteName), suiteName);
+        Assert.assertEquals(suitePage.suiteShouldExist(suiteName), suiteName);
         suitePage.clickButtonClone(suiteName);
         suitePage.addPrefixToCloneSuite("1");
         suitePage.cloneSuite();
-        Assert.assertEquals(suitePage.getSuiteName(suiteName), suiteName);
+        Assert.assertEquals(suitePage.suiteShouldExist(suiteName), suiteName);
     }
 
     @Test(description = "Edit suite")
     public void editSuite() {
+        String projectName = faker.lorem().word() + faker.number().numberBetween(1, 100);
+        String projectCode = faker.number().digits(9);
+        String projectDescription = faker.lorem().word();
+        projectsPage.createNewProject(projectName, projectCode, projectDescription);
+        projectsPage.waitTillOpen();
         suitePage.fillFieldSuiteName(suiteName,
                 suiteDescription,
                 suitePreCondition);
-        Assert.assertEquals(suitePage.getSuiteName(suiteName), suiteName);
+        Assert.assertEquals(suitePage.suiteShouldExist(suiteName), suiteName);
         suitePage.clickButtonEdit(suiteName);
-        suitePage.clearFieldSuiteName1(suiteName);
+        suitePage.clearFieldSuiteName(suiteName);
         suitePage.saveEditSuite();
-        Assert.assertEquals(suitePage.getSuiteName(suiteName), suiteName);
+        Assert.assertEquals(suitePage.suiteShouldExist(suiteName), suiteName);
     }
 
     @Test(description = "Creation test case of the new suite")
     public void createNewCaseInSuite() {
+        String projectName = faker.lorem().word() + faker.number().numberBetween(1, 100);
+        String projectCode = faker.number().digits(9);
+        String projectDescription = faker.lorem().word();
+        projectsPage.createNewProject(projectName, projectCode, projectDescription);
+        projectsPage.waitTillOpen();
         suitePage.fillFieldSuiteName(suiteName,
                 suiteDescription,
                 suitePreCondition);
-        Assert.assertEquals(suitePage.getSuiteName(suiteName), suiteName);
+        Assert.assertEquals(suitePage.suiteShouldExist(suiteName), suiteName);
         suitePage.newTestCaseInSuiteButton(suiteName);
         testCasePage.waitTillOpen();
         TestCase testCase = TestCase.builder().
@@ -82,7 +102,7 @@ public class SuiteTest extends BaseTest {
                 build();
         testCasePage.fillInTestCase(testCase);
         testCasePage.saveTestCase();
-        testCasePage.waitTillOpenedCase();
+        testCasePage.waitTillOpenRepositoryPage();
         testCasePage.testCaseShouldBeCreated(randomTitle);
     }
 }

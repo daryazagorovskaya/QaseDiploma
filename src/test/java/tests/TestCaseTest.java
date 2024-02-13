@@ -14,11 +14,10 @@ public class TestCaseTest extends BaseTest {
         loginPage.login(USER, PASSWORD);
         projectsPage.waitTillOpened();
         testCasePage.pickProjectInProjectPage("ShareLane");
-        testCasePage.waitTillOpenedCase();
+        testCasePage.waitTillOpenRepositoryPage();
     }
     Faker faker = new Faker();
     String randomTitle = faker.lorem().sentence();
-    String randomTitle2 = faker.lorem().sentence();
 
     @Test(description = "Creation of the test case without adding conditions and the steps")
     public void createTestCaseInCreatedProject() {

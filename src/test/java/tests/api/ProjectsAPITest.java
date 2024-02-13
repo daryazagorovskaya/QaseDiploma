@@ -3,12 +3,15 @@ package tests.api;
 import com.github.javafaker.Faker;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+import tests.BaseTest;
 
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertEquals;
+import static tests.BaseTest.TOKEN;
 
-public class ProjectsAPITest extends BaseAPITest {
+public class ProjectsAPITest extends BaseTest {
     Faker faker = new Faker();
     String randomTitle = faker.book().title();
     String randomCode = faker.code().asin();
@@ -27,7 +30,7 @@ public class ProjectsAPITest extends BaseAPITest {
                 .extract()
                 .response();
         var quantityOfProjects = response.jsonPath().getString("result.total");
-        System.out.println(quantityOfProjects);
+        Assert.assertTrue(Integer.parseInt(quantityOfProjects) > 0);
     }
 
     @Test (description = "Checking retrieve all projects available for your account if authorization data invalid")
@@ -44,7 +47,7 @@ public class ProjectsAPITest extends BaseAPITest {
                 .extract()
                 .response();
         var errorMessage = response.jsonPath().getString("error");
-        System.out.println(errorMessage);
+        Assert.assertTrue(errorMessage.contains("Unauthenticated"));
     }
 
     @Test(description = "Checking to create a new project")

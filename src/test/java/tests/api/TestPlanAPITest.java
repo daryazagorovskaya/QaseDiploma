@@ -3,10 +3,12 @@ package tests.api;
 import com.github.javafaker.Faker;
 import io.restassured.http.ContentType;
 import org.testng.annotations.Test;
+import tests.BaseTest;
 
 import static io.restassured.RestAssured.given;
+import static tests.BaseTest.TOKEN;
 
-public class TestPlanAPITest extends BaseAPITest {
+public class TestPlanAPITest extends BaseTest {
     public static final String URL = "https://api.qase.io";
 
     Faker faker = new Faker();

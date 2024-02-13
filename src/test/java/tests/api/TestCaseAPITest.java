@@ -4,14 +4,16 @@ import com.github.javafaker.Faker;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
+import tests.BaseTest;
 
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 import static org.testng.AssertJUnit.assertTrue;
+import static tests.BaseTest.TOKEN;
 
-public class TestCaseAPITest extends BaseAPITest {
+public class TestCaseAPITest extends BaseTest {
     Faker faker = new Faker();
     String descriptionNumber = faker.lorem().word() + faker.number().numberBetween(1, 100);
     String randomTitle = faker.lorem().sentence();

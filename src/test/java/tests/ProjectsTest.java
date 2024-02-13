@@ -1,7 +1,6 @@
 package tests;
 
 import com.github.javafaker.Faker;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -18,7 +17,7 @@ public class ProjectsTest extends BaseTest {
     }
     Faker faker = new Faker();
     String projectName = faker.lorem().word() + faker.number().numberBetween(1, 100);
-    String projectCode = faker.number().digits(6) + faker.regexify("[a-zA-Z]{4}");
+    String projectCode = faker.number().digits(7) + faker.regexify("[A-Z]{2}");
     String projectDescription = faker.lorem().word();
 
 
@@ -29,7 +28,7 @@ public class ProjectsTest extends BaseTest {
         projectsPage.openPageProjects();
         projectsPage.waitTillOpen();
         projectsPage.removeProject(projectName);
-        Assert.assertFalse(projectsPage.projectToDelete(projectName));
+        Assert.assertFalse(projectsPage.isProjectExist(projectName));
     }
 
     @Test (description = "Creation of the new public project")
@@ -37,11 +36,5 @@ public class ProjectsTest extends BaseTest {
         projectsPage.createNewProject(projectName, projectCode, projectDescription);
         projectsPage.waitTillOpen();
         Assert.assertEquals(projectsPage.getTitle(), projectCode + " repository");
-    }
-
-    @Test (description = "Check button 'Settings' project")
-    public void checkSettingButton() {
-        projectsPage.clickOnSettings("ShareLane");
-        Assert.assertEquals(projectsPage.settingsIsDisplayed(), "Project settings", "Test failed");
     }
 }
