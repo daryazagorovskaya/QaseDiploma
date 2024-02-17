@@ -15,7 +15,7 @@ public class ProjectsTest extends BaseTest {
     }
     Faker faker = new Faker();
     String projectName = faker.lorem().word() + faker.number().numberBetween(1, 100);
-    String projectCode = faker.number().digits(7) + faker.regexify("[A-Z]{2}");
+    String projectCode = faker.number().digits(9) ;
     String projectDescription = faker.lorem().word();
 
 
@@ -34,5 +34,7 @@ public class ProjectsTest extends BaseTest {
         projectsPage.createNewProject(projectName, projectCode, projectDescription);
         projectsPage.waitTillOpen();
         Assert.assertEquals(projectsPage.getTitle(), projectCode + " repository");
+        projectsPage.waitTillOpen();
+        deleteProjectAfterCreate(projectCode);
     }
 }
