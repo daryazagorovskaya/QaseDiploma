@@ -8,11 +8,13 @@ import pages.LoginPage;
 import pages.ProjectsPage;
 import pages.SuitePage;
 import pages.TestCasePage;
+import tests.api.ProjectsAPITest;
 import utils.PropertyReader;
 
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static io.restassured.RestAssured.given;
 
 public class BaseTest {
     public static final String URL = "https://api.qase.io";
@@ -23,6 +25,7 @@ public class BaseTest {
     ProjectsPage projectsPage;
     TestCasePage testCasePage;
     SuitePage suitePage;
+    ProjectsAPITest projectsAPITest;
 
     Faker faker;
 
@@ -39,12 +42,27 @@ public class BaseTest {
         projectsPage = new ProjectsPage();
         testCasePage = new TestCasePage();
         suitePage = new SuitePage();
+        projectsAPITest = new ProjectsAPITest();
 
         USER = System.getProperty("user", PropertyReader.getProperty("qs.user"));
         PASSWORD = System.getProperty("password", PropertyReader.getProperty("qs.password"));
         TOKEN = System.getProperty("token", PropertyReader.getProperty("qs.token"));
 
 
+    }
+
+    public void deleteProjectAfterCreate(String code) {
+        given()
+                .header("accept", "application/json")
+                .header("Token", TOKEN)
+                .log()
+                .all()
+                .when()
+                .delete(URL +"/v1/project/" + code)
+                .then()
+                .log()
+                .all()
+                .statusCode(200);
     }
 
     @AfterMethod(alwaysRun = true)

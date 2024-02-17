@@ -11,7 +11,6 @@ import java.util.Map;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 import static org.testng.AssertJUnit.assertTrue;
-import static tests.BaseTest.TOKEN;
 
 public class TestCaseAPITest extends BaseTest {
     Faker faker = new Faker();
@@ -50,17 +49,17 @@ public class TestCaseAPITest extends BaseTest {
                 .response();
         var extractedFieldValue = response.jsonPath().getString("result.id");
         assertTrue("The extracted field value should not be null or empty", extractedFieldValue != null && !extractedFieldValue.isEmpty());
-
     }
 
     @Test(description = "Checking to retrieve a specific test case")
     public void getSpecificTestCase() {
-    Response response = given()
+        Response response = given()
+                .body("{\"title\":\"" + randomTitle + "\"}")
                 .header("accept", "application/json")
                 .header("Token", TOKEN)
                 .when()
                 .contentType(ContentType.JSON)
-                .get(URL + "/v1/case/SHARELANE/1")
+                .post(URL + "/v1/case/SHARELANE")
                 .then()
                 .log().all()
                 .statusCode(200)

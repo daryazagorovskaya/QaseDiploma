@@ -9,10 +9,8 @@ import static io.restassured.RestAssured.given;
 import static tests.BaseTest.TOKEN;
 
 public class TestPlanAPITest extends BaseTest {
-    public static final String URL = "https://api.qase.io";
-
     Faker faker = new Faker();
-    int planNumber = faker.number().numberBetween(1, 100);
+    int planNumber = faker.number().numberBetween(1, 3);
 
     @Test
     public void getAllPlans() {

@@ -9,7 +9,6 @@ import tests.BaseTest;
 
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertEquals;
-import static tests.BaseTest.TOKEN;
 
 public class ProjectsAPITest extends BaseTest {
     Faker faker = new Faker();
@@ -63,6 +62,7 @@ public class ProjectsAPITest extends BaseTest {
                 .log().all()
                 .statusCode(200);
         assertEquals(randomCode, response.jsonPath().getString("result.code"));
+        deleteProjectAfterCreate(randomCode);
     }
 
     @Test(description = "Checking to retrieve a specific project")
