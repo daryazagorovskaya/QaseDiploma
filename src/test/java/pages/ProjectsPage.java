@@ -13,7 +13,7 @@ public class ProjectsPage {
     private final By PROJECT_NAME = By.id("project-name");
     private final By PROJECT_CODE = By.id("project-code");
     private final By DESCRIPTION = By.id("description-area");
-    private final By CREATE_NEW_BTN = By.xpath("//span[text()='Create new project']");
+    private final By CREATE_NEW_BTN = By.xpath("//h1[text()='Projects']");
     final private By CREATE_BTN = By.xpath("//span[text()='Create project']");
     final private By MAIN_MENU_BTN = By.xpath("//span//img");
     final private By SIGN_OUT_BTN = By.xpath("//div//span[text()='Sign out']");
