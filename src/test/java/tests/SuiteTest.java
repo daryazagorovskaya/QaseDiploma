@@ -32,7 +32,10 @@ public class SuiteTest extends BaseTest {
         suitePage.waitTillOpenRepositoryPage();
         String actualSuiteName = suitePage.suiteShouldExist(suiteName);
         Assert.assertEquals(actualSuiteName, suiteName, "Suite creation failed");
-        deleteProjectAfterCreate(projectCode);
+        suitePage.waitTillOpenRepositoryPage();
+        projectsPage.openPageProjects();
+        projectsPage.waitTillOpen();
+        projectsPage.removeProject(projectName);
     }
 
     @Test(description = "Delete suite")
@@ -49,7 +52,10 @@ public class SuiteTest extends BaseTest {
         suitePage.clickButtonDelete(suiteName);
         suitePage.confirmDeleteSuite();
         Assert.assertFalse(suitePage.suiteToDelete(suiteName));
-        deleteProjectAfterCreate(projectCode);
+        suitePage.waitTillOpenRepositoryPage();
+        projectsPage.openPageProjects();
+        projectsPage.waitTillOpen();
+        projectsPage.removeProject(projectName);
     }
 
     @Test(description = "Clone suite")
@@ -67,7 +73,10 @@ public class SuiteTest extends BaseTest {
         suitePage.addPrefixToCloneSuite("1");
         suitePage.cloneSuite();
         Assert.assertEquals(suitePage.suiteShouldExist(suiteName), suiteName);
-        deleteProjectAfterCreate(projectCode);
+        suitePage.waitTillOpenRepositoryPage();
+        projectsPage.openPageProjects();
+        projectsPage.waitTillOpen();
+        projectsPage.removeProject(projectName);
     }
 
     @Test(description = "Edit suite")
@@ -85,8 +94,10 @@ public class SuiteTest extends BaseTest {
         suitePage.clearFieldSuiteName(suiteName);
         suitePage.saveEditSuite();
         Assert.assertEquals(suitePage.suiteShouldExist(suiteName), suiteName);
-        deleteProjectAfterCreate(projectCode);
-        //projectsAPITest.deleteProjectAfterCreate(projectCode);
+        suitePage.waitTillOpenRepositoryPage();
+        projectsPage.openPageProjects();
+        projectsPage.waitTillOpen();
+        projectsPage.removeProject(projectName);
     }
 
     @Test(description = "Creation test case of the new suite")
@@ -109,6 +120,9 @@ public class SuiteTest extends BaseTest {
         testCasePage.saveTestCase();
         testCasePage.waitTillOpenRepositoryPage();
         testCasePage.testCaseShouldBeCreated(randomTitle);
-        deleteProjectAfterCreate(projectCode);
+        suitePage.waitTillOpenRepositoryPage();
+        projectsPage.openPageProjects();
+        projectsPage.waitTillOpen();
+        projectsPage.removeProject(projectName);
     }
 }
