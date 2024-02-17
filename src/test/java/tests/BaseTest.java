@@ -32,7 +32,7 @@ public class BaseTest {
     @BeforeMethod
     public void setup() {
         Configuration.browser = "chrome";
-        Configuration.headless = false;
+        Configuration.headless = true;
         Configuration.timeout = 10000;
         Configuration.baseUrl = "https://app.qase.io";
         open();
