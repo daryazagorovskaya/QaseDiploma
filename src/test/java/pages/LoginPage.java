@@ -17,23 +17,29 @@ LoginPage  {
     final private By BTN_REST_PASS = By.xpath("//h1[text()='Reset your password']");
     final private By BTN_FORGOT_PASS = By.xpath("//div//a[text()='Forgot password?']");
 
+    @Step("Opening a login page")
     public void openPage() {
+        log.info("Opening a login page");
         open("/login");
     }
 
-    @Step("Log in using credentials: '{user}', '{pass}'")
-    public void login(String user, String pass) {
-        log.info("Log in using credentials: '{user}', '{pass}'");
+    @Step("Log in using credentials: '{user}', '{password}'")
+    public void login(String user, String password) {
+        log.info("Log in using credentials: '{user}', '{password}'");
         $(EMAIL_CSS).sendKeys(user);
-        $(PASS_CSS).sendKeys(pass);
+        $(PASS_CSS).sendKeys(password);
         $(SUBMIT_BTN_CSS).click();
     }
 
+    @Step("Check opening 'Reset page'")
     public String isResetPageDisplayed() {
+        log.info("Check opening 'Reset page'");
         return $(BTN_REST_PASS).getText();
     }
 
+    @Step("Transit to page 'Reset password'")
     public void openPageResetPassword () {
+        log.info("Transit to page 'Reset password'");
         $(BTN_FORGOT_PASS).click();
     }
 }
