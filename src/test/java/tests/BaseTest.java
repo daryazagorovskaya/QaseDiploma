@@ -47,8 +47,6 @@ public class BaseTest {
         USER = System.getProperty("user", PropertyReader.getProperty("qs.user"));
         PASSWORD = System.getProperty("password", PropertyReader.getProperty("qs.password"));
         TOKEN = System.getProperty("token", PropertyReader.getProperty("qs.token"));
-
-
     }
 
     public void deleteProjectAfterCreate(String code) {
