@@ -5,8 +5,7 @@ import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 @Log4j2
 public class ProjectsPage {
@@ -34,6 +33,7 @@ public class ProjectsPage {
 
     @Step("Checking transit to projects page")
     public void waitTillOpened() {
+        sleep(5000);
         $(CREATE_NEW_BTN).shouldBe(Condition.visible);
     }
 
