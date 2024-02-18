@@ -1,11 +1,14 @@
 package pages;
 
-import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 
-import static com.codeborne.selenide.Selenide.*;
+import java.time.Duration;
+
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
 
 @Log4j2
 public class ProjectsPage {
@@ -33,20 +36,19 @@ public class ProjectsPage {
 
     @Step("Checking transit to projects page")
     public void waitTillOpened() {
-        sleep(5000);
-        $(CREATE_NEW_BTN).shouldBe(Condition.visible);
+        $(CREATE_NEW_BTN).shouldBe(visible, Duration.ofSeconds(30));
     }
 
     @Step("Checking that the projects creation page has opened")
     public String waitTillOpenedIsDisplayed() {
         log.info("Checking that the projects creation page has opened");
-        return $(CREATE_NEW_BTN).shouldBe(Condition.visible).getText();
+        return $(CREATE_NEW_BTN).shouldBe(visible).getText();
     }
 
     @Step("Waiting for the project creation page to open")
     public void waitTillOpen() {
         log.info("Waiting for the project creation page to open");
-        $(BTN_ADD_FILTER).shouldBe(Condition.visible);
+        $(BTN_ADD_FILTER).shouldBe(visible);
     }
 
     @Step("Creation new project")
@@ -75,7 +77,7 @@ public class ProjectsPage {
     @Step("Log in button when logging out")
     public void waitTillOpenedAutPage() {
         log.info("Log in button when logging out");
-        $(LOG_IN_MESSAGE).shouldBe(Condition.visible);
+        $(LOG_IN_MESSAGE).shouldBe(visible);
     }
 
     @Step("Log in message when logging out")
@@ -94,7 +96,7 @@ public class ProjectsPage {
     @Step("Check that the project has been deleted")
     public boolean isProjectExist(String name) {
         log.info("Check that the project has been deleted");
-        $(By.xpath(String.format(BTN_ABOUT_PROJECT, name))).shouldBe(Condition.visible);
+        $(By.xpath(String.format(BTN_ABOUT_PROJECT, name))).shouldBe(visible);
         return false;
     }
 
