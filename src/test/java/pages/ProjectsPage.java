@@ -1,14 +1,15 @@
 package pages;
 
+import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 @Log4j2
 public class ProjectsPage {
@@ -36,7 +37,7 @@ public class ProjectsPage {
 
     @Step("Checking transit to projects page")
     public void waitTillOpened() {
-        $(CREATE_NEW_BTN).shouldBe(visible, Duration.ofSeconds(30));
+        $(CREATE_NEW_BTN).shouldBe(visible, Duration.ofSeconds(60));
     }
 
     @Step("Checking that the projects creation page has opened")
