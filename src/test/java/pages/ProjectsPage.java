@@ -37,7 +37,7 @@ public class ProjectsPage {
 
     @Step("Checking transit to projects page")
     public void waitTillOpened() {
-        $(CREATE_NEW_BTN).shouldBe(visible, Duration.ofSeconds(60));
+        $(CREATE_NEW_BTN).shouldBe(visible);
     }
 
     @Step("Checking that the projects creation page has opened")
